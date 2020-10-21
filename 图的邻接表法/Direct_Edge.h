@@ -15,7 +15,8 @@ void Neighbors_direct(ALGraph G, VertexType x);
 //在有向图G添加一条有向边<x, y>，该函数不支持修改权值
 int AddEdge_direct(ALGraph* G, VertexType x, VertexType y);
 
-
+//在有向图G添加一条有向边<x, y>，该函数支持修改权值
+int AddEdgeDirectEdgeValue(ALGraph* G, VertexType x, VertexType y, int Edge_Value);
 
 //在有向图G删除一条有向边<x, y>
 int RemoveEdge_direct(ALGraph* G, VertexType x, VertexType y);

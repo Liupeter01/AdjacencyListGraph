@@ -66,8 +66,8 @@ int  Adjcent_nodirect(ALGraph G, VertexType x, VertexType y)
           return x_flag && y_flag;
 }
 
-//在无向图G添加一条无向边(x, y)
-int AddEdge_nodirect(ALGraph* G, VertexType x, VertexType y)
+//在无向图G添加一条无向边(x, y)，该函数支持修改权值
+int AddEdgeNoDirectEdgeValue(ALGraph* G, VertexType x, VertexType y, int Edge_Value)
 {
           int x_pos = 0, y_pos = 0;     //x和y的位置
           int x_status = 0, y_status = 0;    //判断是否存在两个顶点
@@ -87,14 +87,20 @@ int AddEdge_nodirect(ALGraph* G, VertexType x, VertexType y)
           if (y_pos && x_pos)
           {
                     G->arcnum++;        //边数自增
-                    G->Vetics[x_pos].first = CreateLinkNode(G->Vetics[x_pos].first, y_pos);                 //为结点x创建
-                    G->Vetics[y_pos].first = CreateLinkNode(G->Vetics[y_pos].first, x_pos);                //为结点y创建
+                    G->Vetics[x_pos].first = CreateLinkNode(G->Vetics[x_pos].first, y_pos, Edge_Value);                //为结点x创建
+                    G->Vetics[y_pos].first = CreateLinkNode(G->Vetics[y_pos].first, x_pos, Edge_Value);                //为结点y创建
                     return TRUE;
           }
           else
           {
                     return FALSE;
           }
+}
+
+//在无向图G添加一条无向边(x, y)，该函数不支持修改权值使用默认权值1
+int AddEdge_nodirect(ALGraph* G, VertexType x, VertexType y)
+{
+          return AddEdgeNoDirectEdgeValue(G, x, y, 1);   //使用默认为1的权值
 }
 
 //在无向图G删除一条无向边(x, y)
