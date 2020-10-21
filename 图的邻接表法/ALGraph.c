@@ -1,12 +1,13 @@
 #include"ALGraph.h"
 
-//根据为顶点表添加边表结点程序
-ArcNode* CreateLinkNode(ArcNode* head, int position)
+//根据为顶点表添加边表结点程序，支持权重的添加
+ArcNode* CreateLinkNode(ArcNode* head, int position,int edge_value)
 {
           if (head == NULL)
           {
                     head = (ArcNode*)calloc(1, sizeof(ArcNode));
                     head->next = NULL;
+                    head->edge_value = edge_value;          //默认为1
                     head->adjvex = position;
           }
           else
@@ -18,6 +19,7 @@ ArcNode* CreateLinkNode(ArcNode* head, int position)
                     }
                     ArcNode* temp = (ArcNode*)calloc(1, sizeof(ArcNode));
                     temp->next = NULL;
+                    temp->edge_value = edge_value;         //默认为1
                     temp->adjvex = position;
                     p->next = temp;
           }

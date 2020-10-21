@@ -59,19 +59,19 @@ void Neighbors_direct(ALGraph G, VertexType x)
           }
 }
 
-//在有向图G添加一条有向边<x, y>
-int AddEdge_direct(ALGraph* G, VertexType x, VertexType y)
+//在有向图G添加一条有向边<x, y>，该函数支持修改权值
+int AddEdgeDirectEdgeValue(ALGraph* G, VertexType x, VertexType y, int Edge_Value)
 {
           int x_pos = 0, y_pos = 0;     //x和y的位置
           int x_status = 0, y_status = 0;    //判断是否存在两个顶点
           for (int i = 0; i < G->MaxVertexNum; ++i)
           {
-                    if (G->Vetics[i].data == x) 
+                    if (G->Vetics[i].data == x)
                     {
                               x_status = 1;                 //顶点x存在
                               x_pos = i;                    //保存x的位置
                     }
-                    if (G->Vetics[i].data == y) 
+                    if (G->Vetics[i].data == y)
                     {
                               y_status = 1;                   //顶点y存在
                               y_pos = i;                    //保存y的位置
@@ -80,13 +80,19 @@ int AddEdge_direct(ALGraph* G, VertexType x, VertexType y)
           if (y_pos && x_pos)
           {
                     G->arcnum++;        //边数自增
-                    G->Vetics[x_pos].first = CreateLinkNode(G->Vetics[x_pos].first, y_pos);
+                    G->Vetics[x_pos].first = CreateLinkNode(G->Vetics[x_pos].first, y_pos, Edge_Value);
                     return TRUE;
           }
           else
           {
                     return FALSE;
           }
+}
+
+//在有向图G添加一条有向边<x, y>，该函数不支持修改权值
+int AddEdge_direct(ALGraph* G, VertexType x, VertexType y)
+{
+          return AddEdgeDirectEdgeValue(G, x, y, 1);        //默认权值为1
 }
 
 //在有向图G删除一条有向边<x, y>

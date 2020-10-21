@@ -8,6 +8,7 @@
 typedef struct ArcNode
 {
           int adjvex;         //存储顶点数组下标
+          int edge_value;     //存储边的权
           struct ArcNode* next;         //下一个
 }ArcNode;
 
@@ -25,10 +26,10 @@ typedef struct ALGraph
           int MaxVertexNum;   //图的最大容量
 }ALGraph;
 
-//根据为顶点表添加边表结点
-ArcNode* CreateLinkNode(ArcNode* head, int position);
+//根据为顶点表添加边表结点程序，支持权重的添加
+ArcNode* CreateLinkNode(ArcNode* head, int position, int edge_value);
 
-//根据为顶点表删除边表结点
+//为顶点表删除边表结点，支持权重的添加
 ArcNode* DeleteLinkNode(ArcNode* head, int position);
 
 /*图G的初始化*/
