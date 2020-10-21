@@ -47,6 +47,15 @@ void RemoveLinkList(ArcNode* phead);
 //输出图中某条边的权值
 void ShowEdgeValue(ALGraph* G, VertexType x, VertexType y);
 
+/*
+*在图中寻找某一个顶点的邻接点
+*/
+//寻找在图G中顶点x的第一个邻接点
+int FirstNeighbor(ALGraph G, VertexType x);
+
+//寻找在图G中顶点X的除了顶点y以外的一个邻接点
+int NextNeighbor(ALGraph G, VertexType x, VertexType y);
+
 //在图G中删除结点x
 int  DeleteVertex(ALGraph* G, VertexType x);
 
