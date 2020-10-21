@@ -44,6 +44,9 @@ void CreateBatchVertex(ALGraph* G, VertexType* arr);
 //完整链表的清除程序
 void RemoveLinkList(ArcNode* phead);
 
+//输出图中某条边的权值
+void ShowEdgeValue(ALGraph* G, VertexType x, VertexType y);
+
 //在图G中删除结点x
 int  DeleteVertex(ALGraph* G, VertexType x);
 

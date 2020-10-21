@@ -139,6 +139,36 @@ int  DeleteVertex(ALGraph* G, VertexType x)
           }
 }
 
+//输出图中某条边的权值
+void ShowEdgeValue(ALGraph* G, VertexType x, VertexType y)
+{
+          int x_pos = 0;
+          for (x_pos; x_pos < G->MaxVertexNum; ++x_pos)
+          {
+                    if (G->Vetics[x_pos].data == x)
+                    {
+                              break;
+                    }
+          }
+          ArcNode* ptemp = G->Vetics[x_pos].first;
+          while (ptemp != NULL && G->Vetics[ptemp->adjvex].data != y)
+          {
+                    ptemp = ptemp->next;
+          }
+          if (ptemp->edge_value == 0)
+          {
+                    printf("该边不存在\n");
+          }
+          else if (ptemp->edge_value == 1)
+          {
+                    printf("该边只有默认权值1\n");
+          }
+          else
+          {
+                    printf("边%c%c的权值为：%d\n", x, y, ptemp->edge_value);
+          }
+}
+
 //完整链表的清除程序
 void RemoveLinkList(ArcNode* phead)
 {
