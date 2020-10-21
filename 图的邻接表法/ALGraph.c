@@ -169,6 +169,56 @@ void ShowEdgeValue(ALGraph* G, VertexType x, VertexType y)
           }
 }
 
+/*
+*在图中寻找某一个顶点的邻接点
+*/
+//寻找在图G中顶点x的第一个邻接点
+int FirstNeighbor(ALGraph G, VertexType x)
+{
+          int x_pos = 0;      //保存位置
+          for (x_pos;  x_pos < G.MaxVertexNum; ++x_pos)
+          {
+                    if (G.Vetics[x_pos].data == x)
+                    {
+                              break;
+                    }
+          }
+          if (G.Vetics[x_pos].first == NULL)      //没有边
+          {
+                    return -1;          //没有找到
+          }
+          else
+          {
+                    return G.Vetics[x_pos].first->adjvex;
+          }
+}
+
+//寻找在图G中顶点X的除了顶点y以外的一个邻接点
+int NextNeighbor(ALGraph G, VertexType x, VertexType y)
+{
+          int x_pos = 0;      //保存位置
+          for (x_pos; x_pos < G.MaxVertexNum; ++x_pos)
+          {
+                    if (G.Vetics[x_pos].data == x)
+                    {
+                              break;
+                    }
+          }
+          ArcNode* ptemp = G.Vetics[x_pos].first;
+          while (G.Vetics[ptemp->adjvex].data != y)
+          {
+                    ptemp = ptemp->next;
+          }
+          if (ptemp->next == NULL)      //没有边
+          {
+                    return -1;          //没有找到
+          }
+          else
+          {
+                    return ptemp->next->adjvex;                 //y顶点的下一个顶点的数值
+          }
+}
+
 //完整链表的清除程序
 void RemoveLinkList(ArcNode* phead)
 {
