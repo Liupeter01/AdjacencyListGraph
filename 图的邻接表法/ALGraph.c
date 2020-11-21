@@ -3,6 +3,7 @@
 ArcNode* CreateArcNode(int VercticsPos, int Edge_Value) //±ß±í½áµã´´½¨Ä£¿é£¬¸ù¾Ý¶¥µãÎªÖ¹ºÍÈ¨´´½¨±ß±í½áµã
 {
           ArcNode* s = (ArcNode*)malloc(sizeof(ArcNode));
+          assert(s != NULL);
           s->next = NULL;
           s->edge_value = Edge_Value;
           s->adjvex = VercticsPos;
@@ -42,11 +43,11 @@ void DisplayGraph(ALGraph G)           //Í¼GµÄÊä³ö
 {
           for (int i = 0; i < G.vexnum; ++i)
           {
-                    printf("%c:   ", G.Vetics[i].data);
+                    printf("%d  %c:   ", i, G.Vetics[i].data);
                     ArcNode* p = G.Vetics[i].first;
                     while (p != NULL)
                     {
-                              printf("%c--->", p->adjvex);
+                              printf("%c--->", G.Vetics[p->adjvex].data);
                               p = p->next;
                     }
                     printf("END\n");
@@ -112,13 +113,51 @@ BOOL ExtendGraphSize(ALGraph* G, VertexType* arr)          //·ÖÅäÄÚ´æ¿Õ¼ä
 /*ÐèÒª´«µÝÍ¼£¬ÒÔ¼°±ßµÄÁ½¸ö¶¥µã£¬±ßµÄÈ¨(Ä¬ÈÏÎª1)£¬Í¼µÄÀàÐÍ*/
 BOOL InsertEdge(ALGraph* G, VertexType x, VertexType y, int Edge_Value, int Type)         //ÔÚÍ¼ÖÐ²åÈë±ß
 {
+          int x_pos = LocateVertex(*G, x);
+          int y_pos = LocateVertex(*G, y);
+          if (x_pos != -1 || y_pos != -1)              //²»´æÔÚ¶¥µã
+          {
+                    ArcNode* x_y = CreateArcNode(LocateVertex(*G, y), Edge_Value);        //´´½¨µ¥Ïòx->y
+                    if (Type == DIRECTEDGRAPH)              //ÓÐÏòÍ¼
+                    {
+                              x_y->next = G->Vetics[x_pos].first;
+                              G->Vetics[x_pos].first = x_y;
+                    }
+                    else if (Type == UNDIRECTEDGRAPH)       //ÎÞÏòÍ¼
+                    {
+                              ArcNode* y_x = CreateArcNode(LocateVertex(*G, x), Edge_Value);        //´´½¨µ¥Ïòx->y
+                              x_y->next = G->Vetics[x_pos].first;
+                              G->Vetics[x_pos].first = x_y;
 
+                              y_x->next = G->Vetics[y_pos].first;
+                              G->Vetics[y_pos].first = y_x;
+                    }
+                    G->arcnum++;
+                    return TRUE;
+          }
+          return FALSE;
 }
 
 /*ÐèÒª´«µÝÍ¼£¬ÒÔ¼°±ßµÄÁ½¸ö¶¥µã£¬Í¼µÄÀàÐÍ*/
 BOOL RemoveEdge(ALGraph* G, VertexType x, VertexType y, int Type)     //ÔÚÍ¼GÖÐÉ¾³ý±ß
 {
-
+          int x_pos = LocateVertex(*G, x);
+          int y_pos = LocateVertex(*G, y);
+          if (x_pos != -1 || y_pos != -1)              //²»´æÔÚ¶¥µã
+          {
+                    if (Type == DIRECTEDGRAPH)              //ÓÐÏòÍ¼
+                    {
+                              G->Vetics[x_pos].first = DeleteLinkNode(G, G->Vetics[x_pos].first, y);
+                    }
+                    else if (Type == UNDIRECTEDGRAPH)       //ÎÞÏòÍ¼
+                    {
+                              G->Vetics[y_pos].first = DeleteLinkNode(G, G->Vetics[y_pos].first, x);
+                              G->Vetics[x_pos].first = DeleteLinkNode(G, G->Vetics[x_pos].first, y);
+                    }
+                    G->arcnum--;
+                    return TRUE;
+          }
+          return FALSE;
 }
 
 BOOL InsertVertex(ALGraph* G, VertexType x)       //ÔÚÍ¼GÖÐ²åÈë½áµãx
@@ -152,6 +191,13 @@ void CreateBatchVertex(ALGraph* G, VertexType* arr)                   //ÔÚÍ¼GÖÐÅ
 ArcNode* DeleteLinkNode(ALGraph* G,ArcNode* head, VertexType x)                //É¾³ýº¬ÓÐ½áµãxµÄ±ß±í½áµã
 {
           ArcNode* p = head, * pre = NULL;
+          if (p->adjvex == LocateVertex(*G, x))             //Èç¹ûÉ¾³ý½ÚµãÎªÍ·½áµã
+          {
+                    head = p->next;
+                    free(p);
+                    G->arcnum--;
+                    return head;
+          }
           while (p != NULL && p->adjvex != LocateVertex(*G, x))
           {
                     pre = p;  //¼ÇÂ¼Ç°Ò»¸ö½áµã
@@ -169,6 +215,7 @@ ArcNode* DeleteLinkNode(ALGraph* G,ArcNode* head, VertexType x)                /
                               pre->next = p->next;
                               free(p);
                     }
+                    G->arcnum--;
           }
           return head;
 }
@@ -180,9 +227,10 @@ BOOL RemoveVertex(ALGraph* G, VertexType x)             //ÔÚÍ¼GÖÐÉ¾³ý½áµãx
           {
                     for (int i = 0; i < G->vexnum; ++i)     //±éÀúÁÚ½Ó±í
                     {
-                              G->Vetics[i].first = DeleteLinkNode(G, G->Vetics[i].first, x);                  //É¾³ý¿ÉÄÜµÄÈë±ß
+                              G->Vetics[i].first = DeleteLinkNode(G, G->Vetics[i].first, x);   //É¾³ý¿ÉÄÜµÄÈë±ß
                     }
                     RemoveLinkList(G->Vetics[x_pos].first); //É¾³ý¸Ã½ÚµãµÄ³ö±ß
+                    G->vexnum--;
                     return TRUE;
           }
           return FALSE;
@@ -204,7 +252,7 @@ int FindNextNeighbor(ALGraph G, VertexType x, VertexType y)          //ÔÚÍ¼ÖÐÑ°Õ
 {
           int x_pos = LocateVertex(G, x);
           int y_pos = LocateVertex(G, y);
-          if (x_pos != -1 && y_pos!=-1)              //²»´æÔÚ¶¥µã
+          if (x_pos != -1 || y_pos!=-1)              //²»´æÔÚ¶¥µã
           {
                     ArcNode* ptemp = G.Vetics[x_pos].first;
                     if (ptemp == NULL)

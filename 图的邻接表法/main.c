@@ -7,8 +7,9 @@ int main()
           ALGraph Graph;
           InitGraph(&Graph);         //初始化
 
-          VertexType arr[] = { "ABCDEFGHJKKLL" };         //顶点数组集合V(G)
+          VertexType arr[] = { "ABCDEFGHJKL" };         //顶点数组集合V(G)
           CreateBatchVertex(&Graph, arr);//根据数组批量的创建
+
 
 
           DisplayGraph(Graph);
