@@ -21,10 +21,10 @@
     <ClCompile Include="ALGraph.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="No_Direct_Edge.c">
+    <ClCompile Include="DirectEdge.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Direct_Edge.c">
+    <ClCompile Include="UnDirectEdge.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClInclude Include="ALGraph.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="No_Direct_Edge.h">
+    <ClInclude Include="UnDirectEdge.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Direct_Edge.h">
+    <ClInclude Include="DirectEdge.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

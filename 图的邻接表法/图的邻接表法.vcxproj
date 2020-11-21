@@ -144,14 +144,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ALGraph.c" />
-    <ClCompile Include="Direct_Edge.c" />
+    <ClCompile Include="DirectEdge.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="No_Direct_Edge.c" />
+    <ClCompile Include="UnDirectEdge.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ALGraph.h" />
-    <ClInclude Include="Direct_Edge.h" />
-    <ClInclude Include="No_Direct_Edge.h" />
+    <ClInclude Include="DirectEdge.h" />
+    <ClInclude Include="UnDirectEdge.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
