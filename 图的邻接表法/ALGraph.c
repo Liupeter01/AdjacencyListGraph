@@ -263,6 +263,10 @@ int FindNextNeighbor(ALGraph G, VertexType x, VertexType y)          //ÔÚÍ¼ÖĞÑ°Õ
                     {
                               ptemp = ptemp->next;
                     }
+                    if (ptemp == NULL)            //Ã»ÓĞÕÒµ½
+                    {
+                              return -1;
+                    }
                     return ((ptemp->next == NULL) ? -1 : ptemp->next->adjvex);
           }
           return -1;
