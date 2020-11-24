@@ -57,7 +57,10 @@ int CalculateEnVertex(ALGraph G, VertexType x)			//计算某一个顶点的入度数量
 							  ArcNode* ptemp = G.Vetics[i].first;
 							  while (ptemp != NULL)
 							  {
-										++counter;
+										if (ptemp->adjvex == LocateVertex(G, x))
+										{
+												  ++counter;
+										}
 										ptemp = ptemp->next;
 							  }
 					}
